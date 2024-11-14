@@ -1,14 +1,13 @@
 {
-  "name": "nodejs-app",
+  "name": "forwarding-api",
   "version": "1.0.0",
-  "description": "A minimal Node.js web application.",
-  "main": "app.js",
-  "author": "alphasec",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.19.2"
-  },
+  "description": "API forwarding untuk SIM800L",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
   }
 }
