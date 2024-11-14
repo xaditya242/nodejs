@@ -1,21 +1,27 @@
+// index.js
 const express = require('express');
-const path = require('path');
-const indexRouter = require('./routes/index');
-
+const axios = require('axios');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', async (req, res) => {
+    try {
+        // Dapatkan query parameter dari permintaan
+        const queryParams = req.query;
 
-// Use the router for handling routes
-app.use('/', indexRouter);
-
-// Catch-all route for handling 404 errors
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-  });
+        // Buat URL tujuan
+        const targetUrl = `http://firebasepush.infinityfreeapp.com/fire.php`;
+        
+        // Kirim permintaan GET ke URL tujuan dengan query parameter yang sama
+        const response = await axios.get(targetUrl, { params: queryParams });
+        
+        // Kembalikan respons dari server tujuan
+        res.status(response.status).send(response.data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+    console.log(`Server running on port ${PORT}`);
 });
